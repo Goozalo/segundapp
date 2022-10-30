@@ -1,0 +1,36 @@
+Iniciar proyecto
+    npm init -y
+
+Instalar Componentes 
+    express
+    nodemon
+    mongoose
+    cors
+    express-validator
+    bcryptjs
+    jsonwebtoken
+
+Modificar scripts
+    {
+    "type": "module",
+    "scripts": {
+        "dev": "nodemon .",
+        "start": "node index.js"
+    }
+
+Crear carpetas y archivos
+    index.js
+    .env
+    .gitignore
+    README.md
+    └── controllers
+    └── database
+    └── helpers
+    └── middlewares
+    └── schemas
+    └── routes
+
+Añadir carpetas privadas a .gitignore
+    node_modules
+    .env
+
