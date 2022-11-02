@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
-app.use("/api/v1/", authRouter);
+app.use("/api/v1/auth/", authRouter);
 
 app.listen(PORT, () =>
   console.log("Conección exitosa 😊 en el puerto http://localhost:" + PORT)

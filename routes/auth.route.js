@@ -6,10 +6,6 @@ const router = express.Router();
 
 router.post(
   "/login",
-  [
-    body("email", "email invalido").trim().isEmail().normalizeEmail(),
-    body("password", "Contraseña invalida").trim().isLength({ min: 6 }),
-  ],
   validationResultMiddleware,
   login
 );
