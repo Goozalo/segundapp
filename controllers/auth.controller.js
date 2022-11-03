@@ -1,4 +1,5 @@
 import { User } from "../Schemas/user.js";
+import { tokenGenerado } from "../utils/tokenGenerate.js";
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -9,6 +10,10 @@ export const login = async (req, res) => {
 
     const comparePassword = await user.compararpassword(password);
     if (!comparePassword) return res.json({ errorLogin: "Password invalid" });
+
+    // enviar jsonwabtoken
+    const { token, expiresIn } = tokenGenerado(user.id);
+    return res.json({ token, expiresIn });
 
     return res.json({ LoginExitoso: true });
   } catch (error) {
@@ -26,10 +31,15 @@ export const register = async (req, res) => {
   try {
     const user = new User({ name, lastname, email, password });
     await user.save();
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-    // enviar jsonwabtoken
-
-    return res.json({ registroExitoso: true });
+export const protegida = async (req, res) => {
+  try {
+    const user = await User.findById(req.id).lean();
+    return res.json({ email: user.email });
   } catch (error) {
     console.log(error);
   }

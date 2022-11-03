@@ -1,7 +1,8 @@
 import express from "express";
-import { login, register } from "../controllers/auth.controller.js";
+import { login, protegida, register } from "../controllers/auth.controller.js";
 import { body } from "express-validator";
 import { validationResultMiddleware } from "../middlewares/validationResult.js";
+import { rutaProtegida } from "../middlewares/authProtegida.js";
 const router = express.Router();
 
 router.post(
@@ -19,5 +20,7 @@ router.post(
   validationResultMiddleware,
   register
 );
+
+router.get("/protegida", rutaProtegida ,protegida );
 
 export default router;
