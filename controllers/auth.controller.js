@@ -1,5 +1,5 @@
 import { User } from "../Schemas/user.js";
-import { tokenGenerado } from "../utils/tokenGenerate.js";
+import { refreshToken, tokenGenerado } from "../utils/tokenGenerate.js";
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -12,10 +12,9 @@ export const login = async (req, res) => {
     if (!comparePassword) return res.json({ errorLogin: "Password invalid" });
 
     // enviar jsonwabtoken
-    const { token, expiresIn } = tokenGenerado(user.id);
-    return res.json({ token, expiresIn });
+    refreshToken(user.id, res);
 
-    return res.json({ LoginExitoso: true });
+    res.json({ ok: true });
   } catch (error) {
     console.log(error);
   }
@@ -43,4 +42,9 @@ export const protegida = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const logout = async (req, res) => {
+  res.clearCookie("refreshToken");
+  res.json({ logout: true });
 };
