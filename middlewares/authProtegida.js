@@ -10,7 +10,6 @@ export const rutaProtegida = async (req, res, next) => {
     const { token } = tokenGenerado(id);
     var { id } = jwt.verify(token, process.env.JWT_PALABRA_CLAVE);
     req.id = id;
-    console.log(req.id);
     next();
   } catch (error) {
     console.log(error.message);

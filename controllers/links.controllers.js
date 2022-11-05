@@ -11,7 +11,7 @@ export const singleLink = async (req, res) => {
     const { id } = req.params;
     const aLink = await Link.findById({ _id: id });
     // VALIDACION ID VALIDO
-    if (!aLink) return res.json({ Error: "URLid Incorrecta singlelink 1" });
+    if (!aLink) return res.json({ Error: "URLid no existe singlelink 1" });
     // VALIDACION DE URL Y USUARIO
     if (!aLink.uid.equals(req.id)) {
       return res.json({ Error: "Esta link no te pertenece PAYASO 🤡" });
@@ -25,7 +25,8 @@ export const singleLink = async (req, res) => {
 };
 export const saveLink = async (req, res) => {
   let { link } = req.body;
-  if (!link.startsWith("http://" || "https://")) {
+  // Validar http en link
+  if (!link.startsWith("http://") && !link.startsWith("https://")) {
     link = "https://" + link;
   }
   const newLink = new Link({ link, shortLink: nanoid(6), uid: req.id });
@@ -34,15 +35,21 @@ export const saveLink = async (req, res) => {
 };
 export const updateLink = async (req, res) => {
   const { id } = req.params;
-  const { link } = req.body;
+  let { link } = req.body;
+  // Validar http en link
+  if (!link.startsWith("http://") && !link.startsWith("https://")) {
+    link = "https://" + link;
+  }
   const updateLink = await Link.findById({ _id: id });
+  // VALIDACION DE ID VALIDA
   if (!updateLink) return res.json({ Error: "URLid Incorrecta update 1" });
+  // VALIDACION DE URL Y USUARIO
   if (!updateLink.uid.equals(req.id)) {
     return res.json({ Error: "Esta link no te pertenece PAYASO 🤡" });
   }
   updateLink.link = link;
 
-  updateLink.save();
+  await updateLink.save();
   res.json({ updateLink });
 };
 export const deleteLink = async (req, res) => {

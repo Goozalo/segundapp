@@ -17,7 +17,7 @@ router.get("/:id", rutaProtegida, validationParam, singleLink);
 // POST /links save a link
 router.post("/", rutaProtegida, validationURL, saveLink);
 // PATCH /links/:id edit a link
-router.patch("/:id", rutaProtegida, validationParam, updateLink);
+router.patch("/:id", rutaProtegida, validationParam, validationURL, updateLink);
 // DELETE /links/:id dekete a link
 router.delete("/:id", rutaProtegida, validationParam, deleteLink);
 
