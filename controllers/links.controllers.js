@@ -34,10 +34,16 @@ export const saveLink = async (req, res) => {
 };
 export const updateLink = async (req, res) => {
   const { id } = req.params;
-  const aLink = await Link.findById({ _id: id });
-  if (!linkDelete) return res.json({ Error: "URLid Incorrecta update 1" });
+  const { link } = req.body;
+  const updateLink = await Link.findById({ _id: id });
+  if (!updateLink) return res.json({ Error: "URLid Incorrecta update 1" });
+  if (!updateLink.uid.equals(req.id)) {
+    return res.json({ Error: "Esta link no te pertenece PAYASO 🤡" });
+  }
+  updateLink.link = link;
 
-  res.json({ aLink });
+  updateLink.save();
+  res.json({ updateLink });
 };
 export const deleteLink = async (req, res) => {
   try {
