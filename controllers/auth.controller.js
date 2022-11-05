@@ -1,12 +1,12 @@
 import { User } from "../Schemas/user.js";
-import { refreshToken, tokenGenerado } from "../utils/tokenGenerate.js";
+import { refreshToken } from "../utils/tokenGenerate.js";
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
     let user = await User.findOne({ email });
-    if (!user) return res.json({ errorLogin: "Email no valido" });
+    if (!user) return res.json({ errorLogin: "Email no registrado" });
 
     const comparePassword = await user.compararpassword(password);
     if (!comparePassword) return res.json({ errorLogin: "Password invalid" });
@@ -14,7 +14,7 @@ export const login = async (req, res) => {
     // enviar jsonwabtoken
     refreshToken(user.id, res);
 
-    res.json({ ok: true });
+    res.json({ Login: true });
   } catch (error) {
     console.log(error);
   }
@@ -30,6 +30,7 @@ export const register = async (req, res) => {
   try {
     const user = new User({ name, lastname, email, password });
     await user.save();
+    res.json({ registro: true });
   } catch (error) {
     console.log(error);
   }
@@ -48,3 +49,4 @@ export const logout = async (req, res) => {
   res.clearCookie("refreshToken");
   res.json({ logout: true });
 };
+

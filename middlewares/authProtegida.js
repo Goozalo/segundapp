@@ -1,14 +1,16 @@
 import jwt from "jsonwebtoken";
 import { tokenGenerado } from "../utils/tokenGenerate.js";
 
-export const rutaProtegida = (req, res, next) => {
+export const rutaProtegida = async (req, res, next) => {
   try {
     const refreshTokenWeb = req.cookies.refreshToken;
     if (!refreshTokenWeb) throw new Error("Introduce una llave");
     var { id } = jwt.verify(refreshTokenWeb, process.env.JWT_REFRESH);
+
     const { token } = tokenGenerado(id);
     var { id } = jwt.verify(token, process.env.JWT_PALABRA_CLAVE);
     req.id = id;
+    console.log(req.id);
     next();
   } catch (error) {
     console.log(error.message);
@@ -19,6 +21,8 @@ export const rutaProtegida = (req, res, next) => {
       "invalid token": "Token no válido",
       "No Bearer": "Utiliza formato Bearer",
       "jwt must be provided": "Introduce un token valido",
+      "Llave NOid": "Esta llave no te pertenece",
+      "Introduce un correo": "Introduce un email",
     };
 
     res.json({ error: tokenVerificationErrors[error.message] });
