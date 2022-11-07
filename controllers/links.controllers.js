@@ -2,9 +2,15 @@ import { Link } from "../Schemas/link.js";
 import { nanoid } from "nanoid";
 
 export const leerLinks = async (req, res) => {
-  const allLinks = await Link.find({ uid: req.id });
+  try {
+    
+    const allLinks = await Link.find({ uid: req.id });
+  
+    return res.json({ allLinks });
+  } catch (error) {
+    return res.send("no cargó");
 
-  res.json({ allLinks });
+  }
 };
 export const singleLink = async (req, res) => {
   try {
@@ -30,6 +36,8 @@ export const saveLink = async (req, res) => {
     link = "https://" + link;
   }
   const newLink = new Link({ link, shortLink: nanoid(6), uid: req.id });
+  console.log(newLink);
+
   await newLink.save();
   res.json({ saveLink: true });
 };

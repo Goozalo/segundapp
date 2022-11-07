@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>prueba cors</title>
+  </head>
+  <body>
+    <form id="form">
+      <input id="email" type="email" value=" gonzalo12@test.com" />
+      <input id="password" type="password" value="gonzalo" />
+      <button id="boton">Enviar info</button>
+    </form>
+
+    <script>
+      const email = document.getElementById("email");
+      const password = document.getElementById("password");
+      const boton = document.getElementById("boton");
+      const form = document.getElementById("form");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        try {
+          const res = await fetch("http://localhost:5000/api/v1/auth/login", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify({
+              email: email.value,
+              password: password.value,
+            }),
+          });
+          console.log(res);
+        } catch (error) {
+          console.log(error);
+        }
+      });
+    </script>
+  </body>
+</html>

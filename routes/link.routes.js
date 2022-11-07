@@ -6,6 +6,7 @@ import {
   singleLink,
   updateLink,
 } from "../controllers/links.controllers.js";
+import { redirectLink } from "../controllers/redirect.router.js";
 import { rutaProtegida } from "../middlewares/authProtegida.js";
 import { validationParam, validationURL } from "../middlewares/validations.js";
 const router = Router();
@@ -20,5 +21,6 @@ router.post("/", rutaProtegida, validationURL, saveLink);
 router.patch("/:id", rutaProtegida, validationParam, validationURL, updateLink);
 // DELETE /links/:id dekete a link
 router.delete("/:id", rutaProtegida, validationParam, deleteLink);
+
 
 export default router;

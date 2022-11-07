@@ -16,12 +16,11 @@ export const refreshToken = (id, res) => {
   const expiresIn = 60 * 60 * 24 * 30;
   try {
     const refreshToken = jwt.sign({ id }, process.env.JWT_REFRESH);
-    res.cookie("refreshToken", refreshToken, {
+    const cookieToken = res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: !(process.env.MODO === "Developer"),
       expires: new Date(Date.now() + expiresIn * 1000),
     });
-    // console.log(cookieRefresh);
   } catch (error) {
     console.log(error);
   }

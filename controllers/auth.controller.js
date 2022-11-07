@@ -14,7 +14,7 @@ export const login = async (req, res) => {
     // enviar jsonwabtoken
     refreshToken(user.id, res);
 
-    res.json({ Login: true });
+    
   } catch (error) {
     console.log(error);
   }
